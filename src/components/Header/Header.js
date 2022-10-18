@@ -3,6 +3,7 @@ import Logo from '../../images/Logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faBars } from '@fortawesome/free-solid-svg-icons';
 import './Header.css'
+import { Link } from 'react-router-dom';
 
 const Header = ({hiddenCart, toggleCart}) => {
   const [hidden, setHidden] = useState("hidden");
@@ -20,10 +21,10 @@ const Header = ({hiddenCart, toggleCart}) => {
         <img src={Logo} alt="" />
         <div className={`transparent-layer ${hidden}`}>
           <div className='navbar'>
-            <a href="/shop">Shop</a>
-            <a href="/orders">Orders</a>
-            <a href="/inventory">Inventory</a>
-            <a href="/about">About</a>
+            <Link to="/">Shop</Link>
+            <Link to="/orders">Orders</Link>
+            <Link to="/inventory">Inventory</Link>
+            <Link to="/about">About</Link>
           </div>
         </div>
         <button onClick={() => toggleCart(hiddenCart)} className='show-cart-btn'>

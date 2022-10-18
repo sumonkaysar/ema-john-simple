@@ -1,7 +1,12 @@
 import { useState } from 'react';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
 import './App.css';
-import Header from './components/Header/Header';
+import About from './components/About/About';
+import Orders from './components/Orders/Orders';
+import Inventory from './components/Inventory/Inventory';
+import Main from './layout/Main';
 import Shop from './components/Shop/Shop';
+import ProductsAndCartLoader from './loaders/productsAndCartLoader';
 
 function App() {
   const [hiddenCart, setHiddenCart] = useState("cart-hidden");
@@ -13,10 +18,52 @@ function App() {
     }
   }
 
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route
+        path='/'
+        element={
+          <Main 
+            hiddenCart={hiddenCart}
+            toggleCart={toggleCart}
+          />
+        }
+      >
+        <Route 
+          path='/'
+          element={
+            <Shop
+              hiddenCart={hiddenCart}
+              toggleCart={toggleCart}
+            />
+          }
+          loader={() => fetch('products.json')}
+        />
+        <Route 
+          path='/about'
+          element={<About />}
+        />
+        <Route 
+          path='/orders'
+          element={
+            <Orders
+              hiddenCart={hiddenCart}
+              toggleCart={toggleCart}
+            />
+          }
+          loader={ProductsAndCartLoader}
+        />
+        <Route 
+          path='/inventory'
+          element={<Inventory />}
+        />
+      </Route>
+    )
+  )
+
   return (
     <div>
-      <Header hiddenCart={hiddenCart} toggleCart={toggleCart}></Header>
-      <Shop hiddenCart={hiddenCart} toggleCart={toggleCart}></Shop>
+      <RouterProvider router={router} />
     </div>
   );
 }

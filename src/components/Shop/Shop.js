@@ -3,16 +3,11 @@ import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
 import { addToDb, getStoredCart } from "../../utilities/fakedb";
 import './Shop.css';
+import { useLoaderData } from 'react-router-dom';
 
 const Shop = ({hiddenCart, toggleCart}) => {
-  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
-
-  useEffect(() => {
-    fetch('products.json')
-    .then(res=>res.json())
-    .then(data=> setProducts(data))
-  }, []);
+  const products = useLoaderData();
 
   useEffect(() => {
     const storedCart = getStoredCart();
